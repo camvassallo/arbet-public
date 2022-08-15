@@ -1,4 +1,7 @@
-# arbet
+# NOTA Sports
+• Django Web3 application combining fantasy sports and online sportsbooks, built on the Ethereum blockchain. Utilizes DALL-E-2 (artwork), The Odds API (live odds and scores), and a Moralis Dapp
+• Enables users to purchase digital assets (ERC-721 Tokens) representing their favorite sports team
+• Market values are correlated to the efficiency of the team's real-life performances against the spread
 
 # Todo
 - Add User - login/logout/register functionality (DONE)
