@@ -1,0 +1,25 @@
+.active {
+  background-color: #00d1b2 !important;
+  color: white !important;
+}
+
+.inactive {
+  background-color: white;
+}
+
+a.navbar-item:hover {
+        background-color: #00d1b2;
+        color: white !important;
+   }
+
+body {
+    background-image: url('/static/images/gradient.png');
+}
+
+
+body { min-height: 100vh; }
+
+#betslip.fixed{
+    position:fixed;
+    top:5;
+}

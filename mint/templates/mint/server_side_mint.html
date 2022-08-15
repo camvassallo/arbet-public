@@ -1,0 +1,41 @@
+{% extends "mint/base.html" %}
+{% block title %}MINT YOUR FANCY{% endblock %}
+{% block head%}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+<script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+{% load static %}
+<script src="{% static 'js/logic.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+
+<div class="box">
+    <div class="row">
+        <div class="col">
+            <h1>Mint NFT</h1>
+            <hr>
+            <div class="mb-3">
+                <div class="form-group">
+                    <div class="input-group mb-3">
+                        <input id="name" type="text" class="form-control" placeholder="NFT Name" aria-label="URL" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input id="description" type="text" class="form-control" placeholder="Description" aria-label="URL" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="file" id="file">
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="upload" onclick="upload();">Upload and Mint</button>
+                </div>
+                <hr>
+                <div class="input-group mb-3" id="resultSpace">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

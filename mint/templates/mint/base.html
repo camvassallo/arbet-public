@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
+<head>
+     <!--Head Content-->
+    {% if title %}
+    <title>N∅TA Sports- {{title}}</title>
+    {% else %}
+    <title>N∅TA Sports</title>
+    {% endif %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link rel="shortcut icon" href="/media/logo_simple.png"/>
+</head>
+<body class="has-navbar-fixed-top">
+    <nav class="navbar is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="{% url 'home' %}">
+                <img src="/media/logo_simple.png" width="28" height="28" />
+            </a>
+
+            <a role="button" class="navbar-burger" onclick="document.querySelector('.navbar-menu').classList.toggle('is-active');">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="{% url 'sportsbook-nba' %}"> Sportsbook </a>
+                <a class="navbar-item" href="{% url 'sportsbook-my-bets' %}"> My Bets </a>
+                <a class="navbar-item" href="{% url 'server-side-mint' %}"> Mint </a>
+                {% if user.is_superuser %}
+                <a class="navbar-item" href="/admin/"> Admin </a>
+                {% endif %}
+            </div>
+
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        {% if user.is_authenticated %}
+                        <a class="button is-primary is-inverted">
+                        <span class="icon-text">
+                        <span class="icon has-text-primary" style="display: inline-table;">
+                            <i class="fa-brands fa-ethereum"></i>
+                        </span>
+                        </span>
+                            &nbsp;&nbsp;{{ user.profile.balance }}
+                        </a>
+                        <a class="button is-link" href="{% url 'deposit' %}">
+                            Deposit
+                        </a>
+                        <a class="button is-light" href="{% url 'logout' %}">
+                            Log out
+                        </a>
+                        {% else %}
+                        <a class="button is-link" href="{% url 'register' %}">
+                            <strong>Sign up</strong>
+                        </a>
+                        <a class="button is-light" href="{% url 'login' %}"> Log in </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBARR -->
+
+    <main>
+        <br>
+        <td style="background: url('{{ STATIC_URL }}images/gradient.png') no-repeat;">
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+        <br>
+    </main>
+    {% block script %}
+        <!-- Import the jQuery library -->
+<!--        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>-->
+    {% endblock %}
+</body>
+</html>

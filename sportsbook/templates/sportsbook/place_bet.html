@@ -1,0 +1,54 @@
+{% extends "mint/base.html" %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% load static %}
+
+<div class="box">
+    <table class="table" style="width:100%;">
+        <tr>
+            <th>{{bet_team}}</th>
+            <th style="text-align: right">{{odds}}</th>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; color:#808080;">{{bet_type}}</td>
+            <td style="text-align: right; font-size: 12px; color:#808080;">{{game.commence_time}}</td>
+        </tr>
+        <tr>
+            <td style="font-size: 12px; color:#808080;">{{game.away_team}} @ {{game.home_team}}</td>
+            <td></td>
+        </tr>
+
+<!--        Betting Form-->
+        <form id='lock-bet' method="POST" enctype="multipart/form-data">
+        <tr>
+            <td> Wager: <p class="control has-icons-left">
+                <input class="input" id="bet-input" name="bet-input" type="text" placeholder="Bet Amount"/>
+                <span class="icon is-left">
+                    <i class="fa-brands fa-ethereum"></i>
+                </span>
+            </p></td>
+            <div class="block">
+            <td> To Win: <br>
+                <span class="icon-text">
+                  <span class="icon is-medium has-text-primary">
+                    <i class="fa-brands fa-ethereum"></i>
+                  </span>
+                  <span id="to-win" style="font-size: 24px; color: #00d1b2"></span>
+                </span>
+            </td>
+            </div>
+        </tr>
+    </table>
+        {% csrf_token %}
+        <input class="button is-link is-outlined is-fullwidth" type="submit" value="Place Bet" id="place-bet-button" style="caret-color: transparent;">
+        <input type="hidden" id="betVal" name="betVal" value="" />
+    </form>
+</div>
+
+<script>
+var inputBox = document.getElementById('bet-input');
+inputBox.onkeyup = function(){
+    document.getElementById('to-win').innerHTML = parseFloat((parseFloat(inputBox.value)||0) * parseFloat({{odds_multiplier}})).toFixed(16);
+}
+</script>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "mint/base.html" %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+{% load static %}
+
+<div class="box">
+    <div class="notification is-danger" id="error" style="display: none">
+        <button class="delete"></button>
+        Transaction Failed. Please refresh the page to retry.
+    </div>
+    <!--        Betting Form-->
+    <div class="columns">
+        <div class="column">
+            Ether <p class="control has-icons-left">
+                <input class="input" id="deposit-amount" type="text" placeholder="Deposit Amount" onkeyUp="document.getElementById('log').innerHTML = this.value" />
+                <span class="icon is-left">
+                    <i class="fa-brands fa-ethereum"></i>
+                </span>
+            </p>
+        </div>
+        <div class="column" >
+            USD<br>
+            <span class="icon-text" style="margin-top: 8px;">
+                  <span class="icon has-text-primary" style="display: inline-table;">
+                    <i class="fa-solid fa-dollar-sign"></i>
+                  </span>
+                  <span id="usd" style="font-size: 24px; color: #00d1b2">0.00</span>
+                </span>
+        </div>
+    </div>
+    <form id='deposit' method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input class="button is-link is-outlined is-fullwidth" onclick="deposit()" value="Deposit" id="place-bet-button" style="caret-color: transparent;">
+    <input type="hidden" id="depositVal" name="depositVal" value="" />
+    </form>
+</div>
+
+<div class="box" id="progress" style="display: none">
+  <div class="center" style="text-align: center">
+  <h1 class="title" style="color: #3273dc"> Confirming Deposit </h1>
+  <progress class="progress is-large is-primary" max="100">60%</progress>
+  <h1 class="title" style="font-size: 12px;"> Validating transaction on the Ethereum Blockchain takes approximately 30 seconds </h1>
+      <a id="etherscan" target="_blank" rel="noopener noreferrer" class="button is-link">
+          <span class="icon-text">
+              <span class="icon" style="display: inline-table;">
+                  <i class="fa-solid fa-dice-d6"></i>
+              </span>
+          </span>
+          &nbsp;&nbsp; View Transaction on Etherscan
+      </a>
+  </div>
+</div>
+
+<script>
+var inputBox = document.getElementById('deposit-amount');
+inputBox.onkeyup = function(){
+    document.getElementById('usd').innerHTML = parseFloat((parseFloat(inputBox.value)||0) * parseFloat({{rate}})).toFixed(2);
+}
+</script>
+<script src="{% static 'js/deposit.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+  (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+    const $notification = $delete.parentNode;
+
+    $delete.addEventListener('click', () => {
+      $notification.parentNode.removeChild($notification);
+    });
+  });
+});
+</script>
+{% endblock %}

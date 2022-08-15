@@ -1,0 +1,17 @@
+{% extends "mint/base.html" %}]
+{% load bulma_tags %}
+
+{% block content %}
+    <div class = "box">
+        <form method="POST">
+            {% csrf_token %}
+            
+            {{form|bulma}}
+
+            <div class="control">
+                <button class="button" style="background-color: black; color: white">Submit</button>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
+ 

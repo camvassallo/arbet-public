@@ -1,0 +1,132 @@
+{% extends "mint/base.html" %}
+{% load tz %}
+{% block content %}
+<div class="columns">
+    <div class="column is-narrow">
+        <div class="box">
+            <aside class="menu">
+                <p class="menu-label">
+                    General
+                </p>
+                <ul class="menu-list">
+                    <li><a>Dashboard</a></li>
+                    <li><a>Customers</a></li>
+                </ul>
+                <p class="menu-label">
+                    Administration
+                </p>
+                <ul class="menu-list">
+                    <li><a>Team Settings</a></li>
+                    <li>
+                        <a class="is-active">Manage Your Team</a>
+                        <ul>
+                            <li><a>Members</a></li>
+                            <li><a>Plugins</a></li>
+                            <li><a>Add a member</a></li>
+                        </ul>
+                    </li>
+                    <li><a>Invitations</a></li>
+                    <li><a>Authentication</a></li>
+                </ul>
+                <p class="menu-label">
+                    Transactions
+                </p>
+                <ul class="menu-list">
+                    <li><a>Payments</a></li>
+                    <li><a>Transfers</a></li>
+                    <li><a>Balance</a></li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+
+    <div class="column">
+        {% for bet in bets %}
+        <div class="box">
+            <table class="table" style="width:100%;">
+                <tr>
+                    <th>
+                        {% if bet.bet_status == "WIN" %}
+                        <span class="icon-text">
+                        <span class="icon has-text-primary" style="display: inline-table;">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </span>
+                        </span>
+                        {% elif bet.bet_status == "LOSE" %}
+                        <span class="icon-text">
+                        <span class="icon has-text-danger" style="display: inline-table;">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </span>
+                        </span>
+                        {% endif %}
+                        {{bet.bet_team_name}}
+                    </th>
+                    <th style="text-align: right">{{bet.bet_odds}}</th>
+                </tr>
+                <tr>
+                    <td style="font-size: 12px; color:#808080;">{{bet.bet_type}}</td>
+                    <td style="text-align: right; font-size: 12px; color:#808080;">{{bet.game.commence_time|localtime}}</td>
+                </tr>
+                <tr>
+                    <td style="font-size: 12px; color:#808080;">{{bet.game.away_team}} @ {{bet.game.home_team}}</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td> Bet: <br>
+                        <span class="icon-text">
+                            <span class="icon has-text-primary" style="display: inline-table;">
+                                <i class="fa-brands fa-ethereum"></i>
+                            </span>
+                          <span style="font-size: 24px; color: #00d1b2">{{bet.bet_value}}</span>
+                        </span>
+                    </td>
+                    <td> To Win: <br>
+                        <span class="icon-text">
+                            <span class="icon has-text-primary" style="display: inline-table;">
+                                <i class="fa-brands fa-ethereum"></i>
+                            </span>
+                            <span style="font-size: 24px; color: #00d1b2">{{bet.bet_payout}}</span>
+                        </span>
+                    </td>
+                </tr>
+                {% if bet.game.game_status == "In Progress" or bet.game.game_status == "Completed" %}
+                    <tr>
+                        <td style="border-bottom: none;"> <h1 class="title is-4 has-text-centered">{{ bet.game.away_team }}</h1> </td>
+                        <td style="border-bottom: none;"> <h1 class="title is-4 has-text-centered">{{ bet.game.home_team }}</h1> </td>
+                    </tr>
+                    <tr>
+                        <link rel="preconnect" href="https://fonts.googleapis.com">
+                        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                        <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+                        <td>
+                            <p style="font-family: 'Orbitron', sans-serif;
+                            font-size: 50px;
+                            color: #3273dc; text-align: center;" id="away-points">{{ bet.game.away_team_score }}</p>
+                        </td>
+                        <td>
+                            <p style="font-family: 'Orbitron', sans-serif;
+                            font-size: 50px;
+                            color: #3273dc; text-align: center;" id="home-points">{{ bet.game.home_team_score }}</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 12px; color:#808080;"> Last Updated: {{ bet.game.last_update }} </td>
+                    </tr>
+                {% endif %}
+            </table>
+            {% if bet.bet_status == "WIN" %}
+            <a class="button is-primary is-fullwidth" href="/mint/token/{{bet.token.id}}">
+                <span class="icon-text">
+                    <span class="icon" style="display: inline-table;">
+                        <i class="fa-solid fa-coins"></i>
+                    </span>
+                </span>
+            &nbsp;&nbsp;   View Token
+            </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,42 @@
+[
+  {
+    "id": "210460bbdf021cf167c346cfa5a63b63",
+    "sport_key": "basketball_nba",
+    "sport_title": "NBA",
+    "commence_time": "2022-05-30T00:46:45Z",
+    "completed": true,
+    "home_team": "Miami Heat",
+    "away_team": "Boston Celtics",
+    "scores": [
+      {
+        "name": "Miami Heat",
+        "score": "96"
+      },
+      {
+        "name": "Boston Celtics",
+        "score": "100"
+      }
+    ],
+    "last_update": "2022-05-30T08:36:02Z"
+  },
+  {
+    "id": "5a6c613fb31d13b4fb58357ef91449c3",
+    "sport_key": "basketball_nba",
+    "sport_title": "NBA",
+    "commence_time": "2022-06-03T01:00:00Z",
+    "completed": true,
+    "home_team": "Golden State Warriors",
+    "away_team": "Boston Celtics",
+    "scores": [
+      {
+        "name": "Golden State Warrios",
+        "score": "115"
+      },
+      {
+        "name": "Boston Celtics",
+        "score": "99"
+      }
+    ],
+    "last_update": "2022-07-14T01:00:00Z"
+  }
+]

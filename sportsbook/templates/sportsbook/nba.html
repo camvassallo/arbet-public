@@ -1,0 +1,133 @@
+{% extends "mint/base.html" %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script> var games = JSON.parse("{{games_json|escapejs}}"); </script>
+{% load static %}
+<script src="{% static 'js/betting.js' %}"></script>
+<script>
+   function setColor(e) {
+      var target = e.target,
+        status = e.target.classList.contains("active");
+
+      e.target.classList.add(status ? "inactive" : "active");
+      e.target.classList.remove(status ? "active" : "inactive");
+   }
+
+$(function() { //doc ready
+    if (!($.browser == "msie" && $.browser.version < 7)) {
+        var target = "#betslip", top = $(target).offset().top - parseFloat($(target).css("margin-top").replace(/auto/, 0));
+        $(window).scroll(function(event) {
+            if (top <= $(this).scrollTop()) {
+                $(target).addClass("fixed");
+            } else {
+                $(target).removeClass("fixed");
+            }
+        });
+    }
+});
+</script>
+<div class="columns">
+    <div class="column is-narrow">
+        <div class="box">
+            <aside class="menu">
+                <p class="menu-label">
+                    General
+                </p>
+                <ul class="menu-list">
+                    <li><a>Dashboard</a></li>
+                    <li><a>Customers</a></li>
+                </ul>
+                <p class="menu-label">
+                    Administration
+                </p>
+                <ul class="menu-list">
+                    <li><a>Team Settings</a></li>
+                    <li>
+                        <a class="is-active">Manage Your Team</a>
+                        <ul>
+                            <li><a>Members</a></li>
+                            <li><a>Plugins</a></li>
+                            <li><a>Add a member</a></li>
+                        </ul>
+                    </li>
+                    <li><a>Invitations</a></li>
+                    <li><a>Authentication</a></li>
+                </ul>
+                <p class="menu-label">
+                    Transactions
+                </p>
+                <ul class="menu-list">
+                    <li><a>Payments</a></li>
+                    <li><a>Transfers</a></li>
+                    <li><a>Balance</a></li>
+                </ul>
+            </aside>
+        </div>
+    </div>
+
+    <div class="column is-half">
+        {% for game in games %}
+        <div class="box">
+            <table class="table" width="100%">
+                <thead>
+                <tr>
+                    <th>Matchup</th>
+                    <th style="text-align:center">Spread</th>
+                    <th style="text-align:center">Moneyline</th>
+                    <th style="text-align:center">Total</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>{{game.away_team}}</th>
+                    {% if game.away_team_spread != 0%}
+                    <td><input class="button is-fullwidth" value="{{game.away_team_spread}} ({{game.away_team_odds}})" type="button" onclick="setColor(event); addToSlip(event, '{{game.id}}', 'away_spread');" /></td>
+                    {% else %}
+                    <td><button class="button is-fullwidth" title="Disabled button" disabled>Unavailable</button> </td>
+                    {% endif %}
+                    {% if game.away_team_ml != 0%}
+                    <td><input class="button is-fullwidth" value="{{game.away_team_ml}}" type="button" onclick="setColor(event); addToSlip(event, '{{game.id}}', 'away_ml');" /></td>
+                    {% else %}
+                    <td><button class="button is-fullwidth" title="Disabled button" disabled>Unavailable</button> </td>
+                    {% endif %}
+                    <td><input class="button is-fullwidth" value="O100" type="button" onclick="setColor(event); addToSlip(event, '{{game.id}}', 'over_total');" /></td>
+
+                </tr>
+                <tr>
+                    <th>{{game.home_team}}</th>
+                    {% if game.home_team_spread != 0%}
+                    <td><input class="button is-fullwidth" value="{{game.home_team_spread}} ({{game.home_team_odds}})" type="button" onclick="setColor(event); addToSlip(event, '{{game.id}}', 'home_spread');" /></td>
+                    {% else %}
+                    <td><button class="button is-fullwidth" title="Disabled button" disabled>Unavailable</button> </td>
+                    {% endif %}
+                    {% if game.home_team_ml != 0%}
+                    <td><input class="button is-fullwidth" value="{{game.home_team_ml}}" type="button" onclick="setColor(event); addToSlip(event, '{{game.id}}', 'home_ml');" /></td>
+                    {% else %}
+                    <td><button class="button is-fullwidth" title="Disabled button" disabled>Unavailable</button> </td>
+                    {% endif %}
+                    <td><input class="button is-fullwidth" value="U100" type="button" onclick="setColor(event); addToSlip(event, '{{game.id}}', 'under_total');" /></td>
+                </tr>
+                <tr><td>{{game.commence_time}}</td></tr>
+                <p style="margin-top:0; margin-bottom:0; line-height:.5"><br /></p>
+                </tbody>
+            </table>
+        </div>
+        {% endfor %}
+    </div>
+
+
+    <div class="column is-one-fourth">
+        <div class="box" id="betslip" style="min-width: 500px;">
+            <nav class="panel is-primary" id="betslip-panel">
+                <p class="panel-heading">
+                    Bet Slip
+                </p>
+                <div class="panel-block" style="background-color: #3273dc">
+                </div>
+            </nav>
+                <input class="button is-link is-outlined is-fullwidth" value="Select Wager" id="place-bet-button" style="caret-color: transparent;">
+        </div>
+    </div>
+</div>
+
+{% endblock %}

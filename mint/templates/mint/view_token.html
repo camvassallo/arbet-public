@@ -1,0 +1,79 @@
+{% extends "mint/base.html" %}
+{% load bulma_tags %}
+{% block head%}
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+<script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+{% load static %}
+<script src="{% static 'js/mint.js' %}"></script>
+{% endblock %}
+{% endblock %}
+{% block content %}
+<div class="box">
+    {% if token.mint_status == "PENDING" %}
+    <div class="columns">
+        <div class="column">
+            <form id='mint' method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input class="button is-success is-fullwidth" value="Mint" type="button" onclick="mint_token()">
+                <input type="hidden" name="mint">
+            </form>
+        </div>
+        <div class="column">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input class="button is-danger is-fullwidth" value="Liquidate" name="liquidate" type="submit">
+            </form>
+        </div>
+    </div>
+    {% elif token.mint_status == "MINTED" %}
+    <div class="columns">
+        <div class="column">
+            <button class="button is-success is-fullwidth">
+                View in Gallery
+            </button>
+        </div>
+        <div class="column">
+            <a class="button is-danger is-fullwidth" id="opensea-link">
+                View on OpenSea
+            </a>
+        </div>
+    </div>
+    {% elif token.mint_status == "LIQUIDATED" %}
+        <button class="button is-fullwidth is-danger" disabled>
+            Liquidated for Ξ{{token.balance}}
+        </button>
+    {% endif %}
+</div>
+<div class='box' style="max-width: 450px; margin-left:auto; margin-right:auto; background-color: red">
+    <div class="card">
+        <div class="card-image">
+            <figure class="image">
+                <img id="art" src="/media/{{token.art}}">
+            </figure>
+        </div>
+        <div class="card-content">
+            <div class="media">
+                <div class="media-left">
+                    <figure class="image is-48x48">
+                        <img src="https://bulma.io/images/placeholders/96x96.png" alt="Placeholder image">
+                    </figure>
+                </div>
+                <div class="media-content">
+                    <p class="title is-4">Stephen Curry</p>
+                    <p class="subtitle is-6" id="name">Golden State Warriors Token {{token.id}}</p>
+                </div>
+            </div>
+
+            <div class="content" id="description">
+                {{ token.bet.game.home_team }} vs {{ token.bet.game.away_team }}
+                <br>
+                <time datetime="2016-1-1">{{ token.bet.game.commence_time }}</time>
+                <br>
+                {{ token.bet.bet_type }} ({{ token.bet.bet_value }} ETH)
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

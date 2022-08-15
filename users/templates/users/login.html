@@ -1,0 +1,17 @@
+{% extends "mint/base.html" %}
+
+{% load bulma_tags %}
+
+{% block content %}
+<div class="box">
+  <form method="POST">
+    {% csrf_token %}
+    {{ form|bulma }}
+    <button type="submit" class="button is-link">Login</button>
+  </form>
+  <br>
+  <div> Don't have an account? <a href="{% url 'register' %}">Register Now</a>
+  </div>
+</div>
+
+{% endblock content %}
