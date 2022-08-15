@@ -8,16 +8,16 @@
 - Add User - login/logout/register functionality (DONE)
 - Create bet from sportsbook screen (DONE)
 - Attach bet to user object (DONE)
-- Get result of bet / live score (if available)
+- Get result of bet / live score (DONE if available)
 - Add bet to user's bet history (DONE)
-- If user wins bet, display pack/nft image in user's account
+- If user wins bet, display pack/nft image in user's account (DONE)
 - Add scores (DONE)
 - Setup DALLE API (DONE)
 - Add balance updating and deposits (DONE)
 - Change bets to subtract from balance (DONE)
 - Add gallery
-- Add redeem pack button (view NFT in gallery)
-- Link Minting API to gallery
+- Add redeem pack button (view NFT in gallery) (DONE)
+- Link Minting API to gallery (DONE)
 - Add liquidation feature to NFT
 - Add support for other Sports
 - Update left menu in sportsbook
